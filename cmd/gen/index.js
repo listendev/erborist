@@ -12,8 +12,14 @@ exports.builder = (yargs) => {
       type: "boolean",
       description: "Whether to perform audit or not",
     })
+    .option("lockfile-version", {
+      default: 3,
+      type: "number",
+      choices: [1, 2, 3],
+      description: "The lockfile version to generate",
+    })
     .positional("dir", {
-      description: "The directory where the package.json is",
+      description: "Where the package.json is",
       type: "string",
       default: process.cwd,
       defaultDescription: "CWD",
@@ -39,6 +45,6 @@ exports.builder = (yargs) => {
     });
 };
 
-exports.handler = ({ registry, dir: path, audit }) => {
-  console.log("GEN", path, audit);
+exports.handler = ({ registry, dir: path, audit, lockfileVersion }) => {
+  console.log("GEN", path, audit, lockfileVersion);
 };
