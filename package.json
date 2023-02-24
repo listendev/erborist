@@ -1,0 +1,22 @@
+{
+  "name": "erborist",
+  "version": "0.1.0",
+  "description": "Arborist as a standalone executable",
+  "main": "index.js",
+  "bin": {
+    "erborist": "index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "make": "pkg . --compress Brotli --no-bytecode --public --out-path=dist/"
+  },
+  "private": true,
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@npmcli/arborist": "^6.2.3",
+    "yargs": "^17.7.1"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.0"
+  }
+}
