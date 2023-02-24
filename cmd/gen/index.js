@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const Arborist = require("@npmcli/arborist");
 
 exports.command = "gen [dir]";
 
@@ -45,6 +46,22 @@ exports.builder = (yargs) => {
     });
 };
 
-exports.handler = ({ registry, dir: path, audit, lockfileVersion }) => {
-  console.log("GEN", path, audit, lockfileVersion);
+exports.handler = ({ registry, dir, audit, lockfileVersion }) => {
+  const arb = new Arborist({
+    path: dir,
+    audit,
+    registry,
+    lockfileVersion,
+    packageLockOnly: true,
+  });
+
+  arb
+    .reify({ save: true })
+    .then((res) => {
+      console.log(res);
+      console.log(`Wrote ${path.join(dir, "package-lock.json")} ✔️`);
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
 };
