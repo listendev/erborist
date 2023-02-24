@@ -7,6 +7,11 @@ exports.desc = "Generate the lockfile";
 
 exports.builder = (yargs) => {
   return yargs
+    .option("audit", {
+      default: false,
+      type: "boolean",
+      description: "Whether to perform audit or not",
+    })
     .positional("dir", {
       description: "The directory where the package.json is",
       type: "string",
@@ -34,6 +39,6 @@ exports.builder = (yargs) => {
     });
 };
 
-exports.handler = ({ registry, dir: path }) => {
-  console.log("GEN", path);
+exports.handler = ({ registry, dir: path, audit }) => {
+  console.log("GEN", path, audit);
 };
