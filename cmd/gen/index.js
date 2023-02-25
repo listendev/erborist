@@ -53,6 +53,7 @@ exports.handler = ({ registry, dir, audit, lockfileVersion }) => {
     registry,
     lockfileVersion,
     packageLockOnly: true,
+    update: false,
   });
 
   arb
