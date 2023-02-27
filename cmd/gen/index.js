@@ -59,7 +59,7 @@ exports.handler = ({ registry, dir, audit, lockfileVersion }) => {
   arb
     .reify({ save: true })
     .then((res) => {
-      console.log(`Wrote ${path.join(dir, "package-lock.json")} ✔️`);
+      console.log(`Wrote ${path.join(dir, "package-lock.json")} 🌱`);
     })
     .catch((err) => {
       console.error(err.message);
