@@ -10,6 +10,13 @@
     "start": "node index.js",
     "make": "pkg . --compress Brotli --no-bytecode --public --out-path=dist/"
   },
+  "pkg": {
+    "targets": [
+      "node18-linux",
+      "node18-macos",
+      "node18-win"
+    ]
+  },
   "private": true,
   "license": "Apache-2.0",
   "dependencies": {
