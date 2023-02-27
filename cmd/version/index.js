@@ -1,8 +1,8 @@
-const pkgJSON = require("../../package.json");
+const pkgJSON = require('../../package.json');
 
-exports.command = "version";
+exports.command = 'version';
 
-exports.desc = "Print the version";
+exports.desc = 'Print the version';
 
 exports.handler = () => {
   console.log(pkgJSON.version);
