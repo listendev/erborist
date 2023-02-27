@@ -29,21 +29,21 @@ labels:
 
 rules:
   - name: docs-changes
-    spec: $hasFileExtensions([".md", ".txt"]) || $matchString("^docs(\([A-Za-z0-9_\/]+\))??:.+$", $title())
+    spec: $hasFileExtensions([".md", ".txt"]) || $matchString("^docs(\([A-Za-z0-9_\/\.]+\))??:.+$", $title())
   - name: ci-changes
-    spec: $hasFilePattern(".github/**") || $hasFileName("reviewpad.yml") || $matchString("^ci(\([A-Za-z0-9_\/]+\))??:.+$", $title())
+    spec: $hasFilePattern(".github/**") || $hasFileName("reviewpad.yml") || $matchString("^ci(\([A-Za-z0-9_\/\.]+\))??:.+$", $title())
   - name: deps-changes
     spec: $hasFileName("package.json") || $hasFileName("package-lock.json") || $matchString("^build\(deps\)\/.+", $title())
   - name: feat-changes
-    spec: $matchString("^feat(\([A-Za-z0-9_\/]+\))??:.+$", $title())
+    spec: $matchString("^feat(\([A-Za-z0-9_\/\.]+\))??:.+$", $title())
   - name: fix-changes
-    spec: $matchString("^fix(\([A-Za-z0-9_\/]+\))??:.+$", $title())
+    spec: $matchString("^fix(\([A-Za-z0-9_\/\.]+\))??:.+$", $title())
   - name: breaking-changes
-    spec: $matchString("^([A-Za-z0-9_]+)??(\([A-Za-z0-9_\/]+\))??!:.+$", $title())
+    spec: $matchString("^([A-Za-z0-9_]+)??(\([A-Za-z0-9_\/\.]+\))??!:.+$", $title())
   - name: exclude-changes
-    spec: $matchString("^(chore|refactor|revert|perf|test)(\([A-Za-z0-9_\/]+\))??:.+$", $title())
+    spec: $matchString("^(chore|refactor|revert|perf|test)(\([A-Za-z0-9_\/\.]+\))??:.+$", $title())
   - name: build-changes
-    spec: $matchString("^build(\([A-Za-z0-9_\/]+\))??:.+$", $title())
+    spec: $matchString("^build(\([A-Za-z0-9_\/\.]+\))??:.+$", $title())
 
 
 groups:
