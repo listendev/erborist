@@ -1,2 +1,5 @@
+# Unforget the global gitignore rules
+!*
+
 node_modules/
 dist/
