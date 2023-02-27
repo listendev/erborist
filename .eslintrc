@@ -1,0 +1,45 @@
+{
+    "extends": ["airbnb-base"],
+    "rules": {
+      "no-bitwise": "off",
+      "no-continue": "off",
+      "no-await-in-loop": "off",
+      "no-constant-condition": "off",
+      "no-param-reassign": "off",
+      "consistent-return": "off",
+      "no-restricted-syntax": "off",
+      "import/prefer-default-export": "off",
+      "camelcase": "off",
+      "no-console": "off"
+    },
+    "overrides": [
+      {
+        "files": ["test/**/*"],
+        "rules": {
+          "array-callback-return": "off",
+          "func-names": "off",
+          "global-require": "off",
+          "guard-for-in": "off",
+          "import/extensions": "off",
+          "import/no-dynamic-require": "off",
+          "import/no-extraneous-dependencies": "off",
+          "import/newline-after-import": "off",
+          "import/no-unresolved": "off",
+          "import/no-useless-path-segments": "off",
+          "import/order": "off",
+          "no-lonely-if": "off",
+          "no-multi-assign": "off",
+          "no-undef": "off",
+          "no-else-return": "off",
+          "no-use-before-define": "off",
+          "object-shorthand": "off",
+          "one-var": "off",
+          "prefer-arrow-callback": "off",
+          "prefer-destructuring": "off",
+          "prefer-object-spread": "off",
+          "prefer-template": "off",
+          "strict": ["error", "global"]
+        }
+      }
+    ]
+  }
