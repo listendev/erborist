@@ -1,52 +1,52 @@
-const fs = require("fs");
-const path = require("path");
-const Arborist = require("@npmcli/arborist");
+const fs = require('fs');
+const path = require('path');
+const Arborist = require('@npmcli/arborist');
 
-exports.command = "gen [dir]";
+exports.command = 'gen [dir]';
 
-exports.desc = "Generate the lockfile";
+exports.desc = 'Generate the lockfile';
 
-exports.builder = (yargs) => {
-  return yargs
-    .option("audit", {
-      default: false,
-      type: "boolean",
-      description: "Whether to perform audit or not",
-    })
-    .option("lockfile-version", {
-      default: 3,
-      type: "number",
-      choices: [1, 2, 3],
-      description: "The lockfile version to generate",
-    })
-    .positional("dir", {
-      description: "Where the package.json is",
-      type: "string",
-      default: process.cwd,
-      defaultDescription: "CWD",
-    })
-    .coerce("dir", path.resolve)
-    .check((argv) => {
-      // Check the path exists
-      if (!fs.existsSync(argv.dir)) {
-        throw new Error(`The path "${argv.dir}" doesn't exist.`);
-      }
-      // Check the path is a directory
-      const stat = fs.statSync(argv.dir);
-      if (!stat.isDirectory()) {
-        throw new Error(`The path "${argv.dir}" is not a directory.`);
-      }
-      // Check the directory contains a package.json file
-      if (!fs.existsSync(path.join(argv.dir, "package.json"))) {
-        throw new Error(
-          `The directory "${argv.dir} doesn't contain a package.json file.`
-        );
-      }
-      return true;
-    });
-};
+exports.builder = (yargs) => yargs
+  .option('audit', {
+    default: false,
+    type: 'boolean',
+    description: 'Whether to perform audit or not',
+  })
+  .option('lockfile-version', {
+    default: 3,
+    type: 'number',
+    choices: [1, 2, 3],
+    description: 'The lockfile version to generate',
+  })
+  .positional('dir', {
+    description: 'Where the package.json is',
+    type: 'string',
+    default: process.cwd,
+    defaultDescription: 'CWD',
+  })
+  .coerce('dir', path.resolve)
+  .check((argv) => {
+    // Check the path exists
+    if (!fs.existsSync(argv.dir)) {
+      throw new Error(`The path "${argv.dir}" doesn't exist.`);
+    }
+    // Check the path is a directory
+    const stat = fs.statSync(argv.dir);
+    if (!stat.isDirectory()) {
+      throw new Error(`The path "${argv.dir}" is not a directory.`);
+    }
+    // Check the directory contains a package.json file
+    if (!fs.existsSync(path.join(argv.dir, 'package.json'))) {
+      throw new Error(
+        `The directory "${argv.dir} doesn't contain a package.json file.`,
+      );
+    }
+    return true;
+  });
 
-exports.handler = ({ registry, dir, audit, lockfileVersion }) => {
+exports.handler = ({
+  registry, dir, audit, lockfileVersion,
+}) => {
   const arb = new Arborist({
     path: dir,
     audit,
@@ -58,8 +58,8 @@ exports.handler = ({ registry, dir, audit, lockfileVersion }) => {
 
   arb
     .reify({ save: true })
-    .then((res) => {
-      console.log(`Wrote ${path.join(dir, "package-lock.json")} 🌱`);
+    .then(() => {
+      console.log(`Wrote ${path.join(dir, 'package-lock.json')} 🌱`);
     })
     .catch((err) => {
       console.error(err.message);
