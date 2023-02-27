@@ -20,7 +20,7 @@ _eg., "it did something unexpected"_
 
 ## Are there features you'd like to see added?
 
-_eg., "lstn needs unicorns"_
+_eg., "erborist needs more unicorns"_
 
 ## Anything else?
 
