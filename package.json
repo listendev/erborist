@@ -12,7 +12,7 @@
     "lint": "eslint index.js cmd/ test/",
     "test": "c8 mocha ./test/*.js --require ./test/setup/before.js --timeout=12000 --check-leaks",
     "precoverage": "npm run test",
-    "coverage": "c8 report --check-coverage"
+    "coverage": "c8 check-coverage"
   },
   "pkg": {
     "targets": [
