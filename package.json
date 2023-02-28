@@ -10,7 +10,9 @@
     "start": "node index.js",
     "make": "pkg . --compress Brotli --no-bytecode --public --out-path=dist/",
     "lint": "eslint index.js cmd/ test/",
-    "test": "mocha --enable-source-maps ./test/*.js --require ./test/setup/before.js --timeout=12000 --check-leaks"
+    "test": "c8 mocha ./test/*.js --require ./test/setup/before.js --timeout=12000 --check-leaks",
+    "precoverage": "npm run test",
+    "coverage": "c8 report --check-coverage"
   },
   "pkg": {
     "targets": [
