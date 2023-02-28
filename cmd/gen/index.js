@@ -7,6 +7,10 @@ exports.command = 'gen [dir]';
 exports.desc = 'Generate the lockfile';
 
 exports.builder = (yargs) => yargs
+  .option('registry', {
+    default: 'https://registry.npmjs.org',
+    description: 'The registry URL',
+  })
   .option('audit', {
     default: false,
     type: 'boolean',
@@ -38,7 +42,7 @@ exports.builder = (yargs) => yargs
     // Check the directory contains a package.json file
     if (!fs.existsSync(path.join(argv.dir, 'package.json'))) {
       throw new Error(
-        `The directory "${argv.dir} doesn't contain a package.json file.`,
+        `The directory "${argv.dir}" doesn't contain a package.json file.`,
       );
     }
     return true;
@@ -56,7 +60,7 @@ exports.handler = ({
     update: false,
   });
 
-  arb
+  return arb
     .reify({ save: true })
     .then(() => {
       console.log(`Wrote ${path.join(dir, 'package-lock.json')} 🌱`);
