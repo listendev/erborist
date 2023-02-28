@@ -1,0 +1,82 @@
+{
+    "name": "tier2",
+    "version": "5.2.0",
+    "files": [
+        "dist"
+    ],
+    "main": "dist/cjs/index.js",
+    "module": "dist/mjs/index.js",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/mjs/index.d.ts",
+                "default": "./dist/mjs/index.js"
+            },
+            "require": {
+                "types": "./dist/cjs/index.d.ts",
+                "default": "./dist/cjs/index.js"
+            }
+        },
+        "./client": {
+            "import": {
+                "types": "./dist/mjs/client.d.ts",
+                "default": "./dist/mjs/client.js"
+            },
+            "require": {
+                "types": "./dist/cjs/client.d.ts",
+                "default": "./dist/cjs/client.js"
+            }
+        }
+    },
+    "description": "SDK for using https://tier.run in Node.js applications",
+    "repository": "https://github.com/tierrun/node-sdk",
+    "author": "Isaac Z. Schlueter <i@izs.me> (https://izs.me)",
+    "license": "BSD-3-Clause",
+    "scripts": {
+        "prepare": "tsc -p tsconfig-cjs.json && tsc -p tsconfig-esm.json && bash fixup.sh",
+        "format": "prettier --write . --loglevel warn",
+        "test": "c8 tap test/*.ts",
+        "snap": "c8 tap test/*.ts",
+        "pretest": "npm run prepare",
+        "presnap": "npm run prepare",
+        "preversion": "npm test",
+        "postversion": "npm publish",
+        "prepublishOnly": "git push origin --follow-tags",
+        "postpublish": "rm -rf dist",
+        "typedoc": "typedoc --tsconfig tsconfig-esm.json ./src/*.ts"
+    },
+    "prettier": {
+        "semi": false,
+        "printWidth": 80,
+        "tabWidth": 2,
+        "useTabs": false,
+        "singleQuote": true,
+        "jsxSingleQuote": false,
+        "bracketSameLine": true,
+        "arrowParens": "avoid",
+        "endOfLine": "lf"
+    },
+    "eslintIgnore": [
+        "/node_modules",
+        "/build",
+        "/public/build"
+    ],
+    "tap": {
+        "coverage": false,
+        "node-arg": [
+            "--no-warnings",
+            "--loader",
+            "ts-node/esm"
+        ],
+        "ts": false
+    },
+    "devDependencies": {
+        "@types/node": "^18.14.1"
+    },
+    "optionalDependencies": {
+        "node-fetch": "^2.6.9"
+    },
+    "engines": {
+        "node": ">=12"
+    }
+}
