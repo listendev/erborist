@@ -38,6 +38,7 @@
           "prefer-destructuring": "off",
           "prefer-object-spread": "off",
           "prefer-template": "off",
+          "prefer-rest-params": "off",
           "strict": ["error", "global"]
         }
       }
