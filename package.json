@@ -1,6 +1,6 @@
 {
   "name": "erborist",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Arborist as a standalone executable",
   "main": "index.js",
   "bin": {
@@ -8,18 +8,17 @@
   },
   "scripts": {
     "start": "node index.js",
-    "make": "pkg . --compress Brotli --no-bytecode --public --out-path=dist/",
+    "make:darwin_amd64_v1": "pkg . --compress Brotli --no-bytecode --public-packages \"*\" --public -t node18-macos-x64 -o dist/erborist_darwin_amd64_v1/erborist",
+    "make:darwin_arm64": "pkg . --compress Brotli --no-bytecode --public-packages \"*\" --public -t node18-macos-arm64 -o dist/erborist_darwin_arm64/erborist",
+    "make:linux_amd64_v1": "pkg . --compress Brotli --no-bytecode --public-packages \"*\" --public -t node18-linux-x64 -o dist/erborist_linux_amd64_v1/erborist",
+    "make:linux_arm64": "pkg . --compress Brotli --no-bytecode --public-packages \"*\" --public -t node18-linux-arm64 -o dist/erborist_linux_arm64/erborist",
+    "make:windows_amd64_v1": "pkg . --compress Brotli --no-bytecode --public-packages \"*\" --public -t node18-win-x64 -o dist/erborist_windows_amd64_v1/erborist.exe",
+    "make:windows_arm64": "pkg . --compress Brotli --no-bytecode --public-packages \"*\" --public -t node18-win-arm64 -o dist/erborist_windows_arm64/erborist.exe",
+    "make": "run-p make:*",
     "lint": "eslint index.js cmd/ test/",
     "test": "c8 mocha ./test/*.js --require ./test/setup/before.js --timeout=12000 --check-leaks",
     "precoverage": "npm run test",
     "coverage": "c8 check-coverage"
-  },
-  "pkg": {
-    "targets": [
-      "node18-linux",
-      "node18-macos",
-      "node18-win"
-    ]
   },
   "private": true,
   "license": "Apache-2.0",
@@ -36,6 +35,7 @@
     "eslint-plugin-import": "^2.27.5",
     "hashish": "^0.0.4",
     "mocha": "^10.2.0",
+    "npm-run-all": "^4.1.5",
     "pkg": "^5.8.0"
   }
 }

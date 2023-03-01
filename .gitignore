@@ -1,6 +1,8 @@
 # Unforget the global gitignore rules
 !*
 
+.DS_Store
+
 node_modules/
 dist/
 coverage/
