@@ -42,7 +42,7 @@ jobs:
           retention-days: 1
 
   test-linux:
-    name: 'test binary (linux)'
+    name: 'test binary (linux, x64)'
     if: github.event.pull_request.draft == false
     needs: make
     runs-on: ubuntu-latest
@@ -54,11 +54,16 @@ jobs:
           name: binaries
           path: dist/
 
+      - name: Check file
+        run: |
+          ls -l dist/erborist_linux_amd64_v1/erborist
+          file dist/erborist_linux_amd64_v1/erborist
+
       - name: Execute binary
         run: ./dist/erborist_linux_amd64_v1/erborist --help
 
   test-darwin:
-    name: 'test binary (macos)'
+    name: 'test binary (macos, x64)'
     if: github.event.pull_request.draft == false
     needs: make
     runs-on: macos-latest
@@ -70,11 +75,16 @@ jobs:
           name: binaries
           path: dist/
 
+      - name: Check file
+        run: |
+          ls -l dist/erborist_darwin_amd64_v1/erborist
+          file dist/erborist_darwin_amd64_v1/erborist
+
       - name: Execute binary
         run: ./dist/erborist_darwin_amd64_v1/erborist --help
 
   test-win:
-    name: 'test binary (windows)'
+    name: 'test binary (windows, x64)'
     if: github.event.pull_request.draft == false
     needs: make
     runs-on: windows-latest
