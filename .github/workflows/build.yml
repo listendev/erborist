@@ -8,10 +8,6 @@ on:
       - package-lock.json
     branches: ['main']
   pull_request:
-    paths:
-      - "**.js"
-      - package.json
-      - package-lock.json
     branches: ['main']
 
 permissions:
@@ -48,7 +44,7 @@ jobs:
   test-linux:
     name: 'test binary (linux)'
     if: github.event.pull_request.draft == false
-    needs: build
+    needs: make
     runs-on: ubuntu-latest
     steps:
 
@@ -64,7 +60,7 @@ jobs:
   test-darwin:
     name: 'test binary (macos)'
     if: github.event.pull_request.draft == false
-    needs: build
+    needs: make
     runs-on: macos-latest
     steps:
 
@@ -80,7 +76,7 @@ jobs:
   test-win:
     name: 'test binary (windows)'
     if: github.event.pull_request.draft == false
-    needs: build
+    needs: make
     runs-on: windows-latest
     steps:
 
