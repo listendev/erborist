@@ -125,6 +125,35 @@ Contributions to this project are [released][legal] to the public under the [pro
 
 Please note that this project adheres to a [Contributor Code of Conduct][code-of-conduct]. By participating in this project you agree to abide by its terms.
 
+## Releases
+
+Publishing a new `erborist` release is as simple as pushing a git tag on the remote `main` branch.
+
+To automate the way we trigger releases, we wrote a little Go tool (that we also use as a placeholder for GoReleaser) to facilitate you in the process.
+
+First and foremost, ensure you are on the `main` branch.
+
+Then you can compile the tool and invoke it.
+
+```bash
+go build -o internal/release internal/main.go
+./internal/release tag v0.10.0
+```
+
+It will take care to:
+
+1. update the current version in the `package.json` file, accordingly to the one you specified in the command line
+2. commit such changes
+3. tag the commit with the version you specified
+
+At this point, all is left to do is to push the changes and the tag.
+
+```bash
+git push origin --tags
+```
+
+Our continuous integration will pick up from here and publish a new GitHub release.
+
 ## Resources
 
 - [How to Contribute to Open Source][]
