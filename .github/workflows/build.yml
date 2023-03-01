@@ -19,6 +19,7 @@ permissions:
 
 jobs:
   make:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
 
@@ -36,3 +37,59 @@ jobs:
       - run: npm install
 
       - run: npm run make
+
+      - name: Archive binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: binaries
+          path: dist/
+          retention-days: 1
+
+  test-linux:
+    name: 'test binary (linux)'
+    if: github.event.pull_request.draft == false
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Get binaries
+        uses: actions/download-artifact@v3
+        with:
+          name: binaries
+          path: dist/
+
+      - name: Execute binary
+        run: ./dist/erborist_linux_amd64_v1/erborist --help
+
+  test-darwin:
+    name: 'test binary (macos)'
+    if: github.event.pull_request.draft == false
+    needs: build
+    runs-on: macos-latest
+    steps:
+
+      - name: Get binaries
+        uses: actions/download-artifact@v3
+        with:
+          name: binaries
+          path: dist/
+
+      - name: Execute binary
+        run: ./dist/erborist_darwin_amd64_v1/erborist --help
+
+  test-win:
+    name: 'test binary (windows)'
+    if: github.event.pull_request.draft == false
+    needs: build
+    runs-on: windows-latest
+    steps:
+
+      - name: Get binaries
+        uses: actions/download-artifact@v3
+        with:
+          name: binaries
+          path: dist/
+
+      - name: Execute binary
+        run: ./dist/erborist_windows_amd64_v1/erborist.exe --help
+
