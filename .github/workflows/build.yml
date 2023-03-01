@@ -60,7 +60,9 @@ jobs:
           file dist/erborist_linux_amd64_v1/erborist
 
       - name: Execute binary
-        run: ./dist/erborist_linux_amd64_v1/erborist --help
+        run: |
+          chmod +x ./dist/erborist_linux_amd64_v1/erborist
+          ./dist/erborist_linux_amd64_v1/erborist --help
 
   test-darwin:
     name: 'test binary (macos, x64)'
@@ -81,7 +83,9 @@ jobs:
           file dist/erborist_darwin_amd64_v1/erborist
 
       - name: Execute binary
-        run: ./dist/erborist_darwin_amd64_v1/erborist --help
+        run: |
+          chmod +x ./dist/erborist_darwin_amd64_v1/erborist
+          ./dist/erborist_darwin_amd64_v1/erborist --help
 
   test-win:
     name: 'test binary (windows, x64)'
