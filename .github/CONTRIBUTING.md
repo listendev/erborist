@@ -146,10 +146,11 @@ It will take care to:
 2. commit such changes
 3. tag the commit with the version you specified
 
-At this point, all is left to do is to push the changes and the tag.
+At this point, all is left to do is to push the changes and (**after**) the tag.
 
 ```bash
-git push origin --tags
+git push
+git push --tags
 ```
 
 Our continuous integration will pick up from here and publish a new GitHub release.
