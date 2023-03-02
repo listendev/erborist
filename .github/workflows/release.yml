@@ -14,6 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Check out the source code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Avoid running against a shallow clone
+
+      - name: Force fetch upstream tags
+        run: git fetch --force --tags
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
@@ -23,15 +31,10 @@ jobs:
           path: ~/.pkg-cache/
           key: ubuntu-latest-18.x
 
-      - name: Check out the source code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Avoid running against a shallow clone
-
       - run: npm install
 
-      - name: Force fetch upstream tags
-        run: git fetch --force --tags
+      - name: Check git status
+        run: git diff --exit-code
 
       - name: Release
         uses: goreleaser/goreleaser-action@v4
