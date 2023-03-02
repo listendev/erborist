@@ -23,12 +23,12 @@ jobs:
           path: ~/.pkg-cache/
           key: ubuntu-latest-18.x
 
-      - run: npm install
-
       - name: Check out the source code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Avoid running against a shallow clone
+
+      - run: npm install
 
       - name: Force fetch upstream tags
         run: git fetch --force --tags
