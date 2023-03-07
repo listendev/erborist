@@ -49,6 +49,9 @@ jobs:
       - name: Check git status
         run: git diff --exit-code
 
+      - name: Install quill
+        run: curl -sSfL https://raw.githubusercontent.com/anchore/quill/main/install.sh | sh -s -- -b /usr/local/bin
+
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.0.1
 
