@@ -17,6 +17,8 @@ builds:
   -
     main: ./internal
     binary: erborist
+    env:
+      - CGO_ENABLED=0
     goos:
       - darwin
       - linux
@@ -28,9 +30,25 @@ builds:
       post:
         - npm run make:{{.Target}}
 
+# Docs at https://goreleaser.com/customization/sign
+signs:
+  - cmd: cosign
+    env:
+      - COSIGN_EXPERIMENTAL=1
+    signature: "${artifact}.sig"
+    certificate: '{{ trimsuffix (trimsuffix .Env.artifact ".zip") ".tar.gz" }}.pem'
+    args:
+      - sign-blob
+      - "--yes"
+      - '--oidc-issuer={{if index .Env "CI"}}https://token.actions.githubusercontent.com{{else}}https://oauth2.sigstore.dev/auth{{end}}'
+      - "--output-signature=${signature}"
+      - "--output-certificate=${certificate}"
+      - "${artifact}"
+    artifacts: all
+    output: true
+
 archives:
-  - id: nix
-    builds: [darwin, linux]
+  -
     <<: &archive_defaults
       rlcp: true
       name_template: >-
@@ -45,10 +63,6 @@ archives:
     format: tar.gz
     files:
       - LICENSE
-  - id: win
-    builds: [windows]
-    <<: *archive_defaults
-    wrap_in_directory: false
-    format: zip
-    files:
-      - LICENSE
+    format_overrides:
+      - goos: windows
+        format: zip
