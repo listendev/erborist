@@ -14,14 +14,12 @@ before:
     - go mod tidy
 
 builds:
-  -
+  - id: windows
     main: ./internal
     binary: erborist
     env:
       - CGO_ENABLED=0
     goos:
-      - darwin
-      - linux
       - windows
     goarch:
       - amd64
@@ -30,12 +28,46 @@ builds:
       post:
         - npm run make:{{.Target}}
 
+  - id: linux
+    main: ./internal
+    binary: erborist
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    hooks:
+      post:
+        - npm run make:{{.Target}}
+
+  - id: macos
+    main: ./internal
+    binary: erborist
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    hooks:
+      post:
+        - npm run make:{{.Target}}
+        - cmd: |
+            quill
+              sign "{{.Path}}"
+              --dry-run={{.IsSnapshot}}
+              --ad-hoc=true
+              -vv
+
 # Docs at https://goreleaser.com/customization/sign
 signs:
-  - cmd: cosign
+  - signature: "${artifact}.sig"
+    cmd: cosign
     env:
       - COSIGN_EXPERIMENTAL=1
-    signature: "${artifact}.sig"
     certificate: '{{ trimsuffix (trimsuffix .Env.artifact ".zip") ".tar.gz" }}.pem'
     args:
       - sign-blob
