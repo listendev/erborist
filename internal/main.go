@@ -39,14 +39,16 @@ var (
 				os.Exit(1)
 			}
 
-			if err := run("git", "add", "package.json"); err != nil {
-				fmt.Fprintf(os.Stderr, "could not add package.json to the git index.\n")
-				os.Exit(1)
-			}
+			if err := run("git", "diff", "--exit-code", "--", "package.json"); err != nil {
+				if err := run("git", "add", "package.json"); err != nil {
+					fmt.Fprintf(os.Stderr, "could not add package.json to the git index.\n")
+					os.Exit(1)
+				}
 
-			if err := run("git", "commit", "-m", fmt.Sprintf("build: update version to %s", v)); err != nil {
-				fmt.Fprintf(os.Stderr, "could not commit package.json version changes.\n")
-				os.Exit(1)
+				if err := run("git", "commit", "-m", fmt.Sprintf("build: update version to %s", v)); err != nil {
+					fmt.Fprintf(os.Stderr, "could not commit package.json version changes.\n")
+					os.Exit(1)
+				}
 			}
 
 			if !strings.HasPrefix(v, "v") {
