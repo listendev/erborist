@@ -22,6 +22,19 @@ jobs:
       - name: Force fetch upstream tags
         run: git fetch --force --tags
 
+      - name: Set up Go 1.19
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+
+      - name: Restore the Go modules cache
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: go-${{ runner.os }}-${{ hashFiles('go.mod') }}
+          restore-keys: |
+            go-${{ runner.os }}-
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
@@ -36,6 +49,9 @@ jobs:
       - name: Check git status
         run: git diff --exit-code
 
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.0.1
+
       - name: Release
         uses: goreleaser/goreleaser-action@v4
         with:
@@ -43,3 +59,4 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COSIGN_EXPERIMENTAL: 1
