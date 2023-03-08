@@ -1,0 +1,87 @@
+# NOTE:
+# This CI workflow builds erborist with bytecode.
+# TODO: install `ldid` linux utility to PATH for automatic ad-hoc signing of macos targets.
+name: building
+
+on:
+  push:
+    branches: ['ci/build-bytecode']
+  pull_request:
+    branches: ['ci/build-bytecode']
+
+permissions:
+  contents: read
+
+jobs:
+  make:
+    strategy:
+      matrix:
+        os:
+          - macos
+          - linux
+          - win
+        arch:
+          - x64
+          - arm64
+        node-version:
+          - 18
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout action code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}.x
+
+      - name: Cache pkg data
+        uses: actions/cache@v3
+        with:
+          path: ~/.pkg-cache/
+          key: node${{ matrix.node-version }}
+          enableCrossOsArchive: true
+
+      - name: Install deps
+        run: npm install
+
+      - name: Make (x64)
+        if: ${{ matrix.arch == 'x64' }}
+        shell: bash
+        run: |
+          ./node_modules/.bin/pkg \
+            --compress Brotli \
+            -t node${{ matrix.node-version }}-${{ matrix.os }}-${{ matrix.arch }} \
+            --out-path dist/erborist_${{ matrix.os }}_amd64_v1/ \
+            .
+
+      - name: Make (arm64)
+        if: ${{ matrix.arch == 'arm64' }}
+        uses: uraimo/run-on-arch-action@v2.5.0
+        with:
+          arch: aarch64
+          distro: ubuntu20.04
+          githubToken: ${{ github.token }}
+          dockerRunArgs: |
+            --volume "${HOME}/.pkg-cache:/root/.pkg-cache"
+          install: |
+            apt-get update -q -y
+            apt-get install -q -y curl
+            curl -fsSL https://deb.nodesource.com/setup_${{ matrix.node-version }}.x | bash -
+            apt-get install -y nodejs
+          run: |
+            ./node_modules/.bin/pkg \
+              --compress Brotli \
+              -t node${{ matrix.node-version }}-${{ matrix.os }}-${{ matrix.arch }} \
+              --out-path dist/erborist_${{ matrix.os }}_arm64/ \
+              .
+
+      - name: Archive binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: binaries
+          path: dist/
+          if-no-files-found: error
+          retention-days: 1
