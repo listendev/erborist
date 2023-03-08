@@ -106,4 +106,3 @@ jobs:
 
       - name: Execute binary
         run: ./dist/erborist_windows_amd64_v1/erborist.exe --help
-

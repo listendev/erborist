@@ -14,26 +14,14 @@ before:
     - go mod tidy
 
 builds:
-  - id: windows
+  - id: erborist
     main: ./internal
     binary: erborist
     env:
       - CGO_ENABLED=0
     goos:
       - windows
-    goarch:
-      - amd64
-      - arm64
-    hooks:
-      post:
-        - npm run make:{{.Target}}
-
-  - id: linux
-    main: ./internal
-    binary: erborist
-    env:
-      - CGO_ENABLED=0
-    goos:
+      - darwin
       - linux
     goarch:
       - amd64
@@ -41,26 +29,7 @@ builds:
     hooks:
       post:
         - npm run make:{{.Target}}
-
-  - id: macos
-    main: ./internal
-    binary: erborist
-    env:
-      - CGO_ENABLED=0
-    goos:
-      - darwin
-    goarch:
-      - amd64
-      - arm64
-    hooks:
-      post:
-        - npm run make:{{.Target}}
-        - cmd: |
-            quill
-              sign "{{.Path}}"
-              --dry-run={{.IsSnapshot}}
-              --ad-hoc=true
-              -vv
+        - bash .github/sign.sh --path {{.Path}} --dry-run {{.IsSnapshot}}
 
 # Docs at https://goreleaser.com/customization/sign
 signs:
