@@ -22,7 +22,7 @@ jobs:
           remote-organization-name: listendev
           remote-repository-name: .github
           branch: 'main' # must not be protected
-          allowlist: dependabot*
+          allowlist: github-actions*,dependabot*
           create-file-commit-message: 'docs: store CLA signature'
-          signed-commit-message: 'docs: $contributorName has signed the CLA in #$pullRequestNo'
+          signed-commit-message: 'docs: $contributorName has signed the CLA in erborist#$pullRequestNo'
           # use-dco-flag: true # Set this to true if you want to use a dco instead of a CLA
